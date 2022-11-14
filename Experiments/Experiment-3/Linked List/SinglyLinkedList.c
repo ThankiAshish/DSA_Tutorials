@@ -17,8 +17,102 @@ Node *createNode()
     }
     printf("Enter Data: ");
     scanf("%d", &newNode->data);
-
+    newNode->next = NULL;
     return newNode;
+}
+
+int countNodes(Node *head)
+{
+    int numberOfNodes = 0;
+    while (head)
+    {
+        numberOfNodes++;
+        head = head->next;
+    }
+    return numberOfNodes;
+}
+
+Node *insertAtStart(Node *head, int data)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+
+    if (!newNode)
+    {
+        printf("\nFailed to Allocate Memory!\n\n");
+        exit(-1);
+    }
+
+    newNode->data = data;
+    newNode->next = head;
+    head = newNode;
+    return head;
+}
+
+Node *insertAtNth(Node *head, int position, int data)
+{
+    Node *temp, *newNode = (Node *)malloc(sizeof(Node));
+
+    if (!newNode)
+    {
+        printf("\nFailed to Allocate Memory!\n\n");
+        exit(-1);
+    }
+
+    newNode->data = data;
+    if (position == 1)
+    {
+        newNode->next = head;
+        head = newNode;
+        return head;
+    }
+
+    temp = head;
+    for (int i = 1; i < position - 1; i++)
+    {
+        temp = temp->next;
+    }
+    newNode->next = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+Node *insertAtEnd(Node *head, int data)
+{
+    Node *temp, *newNode = (Node *)malloc(sizeof(Node));
+
+    if (!newNode)
+    {
+        printf("\nFailed to Allocate Memory!\n\n");
+        exit(-1);
+    }
+
+    newNode->data = data;
+    newNode->next = NULL;
+    temp = head;
+    while (temp && temp->next)
+    {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    return head;
+}
+
+void printList(Node *head)
+{
+    if (!head)
+    {
+        printf("\nLinked List Empty!\n\n");
+        exit(-1);
+    }
+    printf("Your Linked List: \n");
+
+    while (head)
+    {
+        printf("|%d|->", head->data);
+        head = head->next;
+    }
+    printf("\n");
+    return;
 }
 
 int main(void)
@@ -27,10 +121,9 @@ int main(void)
     int size;
     printf("Enter Size of Singly Linked List: ");
     scanf("%d", &size);
-    printf("\n");
-    for (int i = 0; i < size; i++)
+    while (size--)
     {
-        if (head == NULL)
+        if (!head)
         {
             head = createNode();
             head->next = NULL;
@@ -38,7 +131,7 @@ int main(void)
         else
         {
             temp = head;
-            while (temp->next != NULL)
+            while (temp->next)
             {
                 temp = temp->next;
             }
@@ -46,6 +139,12 @@ int main(void)
         }
     }
     printf("\n");
+    printList(head);
+    head = insertAtStart(head, 0);
+    printList(head);
+    head = insertAtEnd(head, 6);
+    printList(head);
+    head = insertAtNth(head, 8, 69);
     printList(head);
     return 0;
 }
