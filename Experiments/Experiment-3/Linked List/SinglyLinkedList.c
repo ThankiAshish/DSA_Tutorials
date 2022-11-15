@@ -68,10 +68,7 @@ Node *insertAtNth(Node *head, int position, int data)
     newNode->data = data;
     if (position == 1)
     {
-        newNode->next = head;
-        head = newNode;
-        printf("%d Inserted!\n", data);
-        return head;
+        return insertAtStart(head, data);
     }
 
     temp = head;
@@ -136,11 +133,7 @@ Node *deleteNth(Node *head, int position)
 
     if (position == 1)
     {
-        head = currentNode->next;
-        free(currentNode);
-        currentNode = NULL;
-        printf("Node Deleted!\n");
-        return head;
+        return deleteNth(head, position);
     }
 
     while (position != 1)
