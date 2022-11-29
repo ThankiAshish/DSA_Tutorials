@@ -133,7 +133,7 @@ Node *deleteNth(Node *head, int position)
 
     if (position == 1)
     {
-        return deleteNth(head, position);
+        return deleteStart(head);
     }
 
     while (position != 1)
