@@ -146,52 +146,45 @@ Node *deleteNth(Node *head, int position)
     if (!head)
     {
         printf("\nLinked List Empty!\n\n");
-        exit(-1);
+        return head;
     }
 
     if (position == 1)
     {
-        head = currentNode->next;
-        free(currentNode);
-        currentNode = NULL;
-        printf("Node Deleted!\n");
-        return head;
+        return deleteStart(head);
     }
-
     while (position != 1)
     {
-        previousNode = currentNode;
         currentNode = currentNode->next;
         position--;
     }
-    previousNode->next = currentNode->next;
+    currentNode->prev->next = currentNode->next;
     free(currentNode);
-    currentNode = NULL;
     printf("Node Deleted!\n");
     return head;
 }
 
 Node *deleteEnd(Node *head)
 {
-    Node *currentNode = head;
-    Node *previousNode = head;
-
-    if (!head->next)
+    if (!head)
     {
-        head = NULL;
-        printf("Node Deleted!\n");
+        printf("\nLinked List Empty!\n\n");
         return head;
     }
 
-    while (previousNode->next->next)
-        previousNode = previousNode->next;
+    if (!head->next)
+    {
+        return deleteStart(head);
+    }
+    Node *currentNode = head;
 
-    while (currentNode)
+    while (currentNode->next)
+    {
         currentNode = currentNode->next;
-
-    previousNode->next = NULL;
-    free(currentNode);
-    currentNode = NULL;
+    }
+    Node *temp = currentNode;
+    currentNode->prev->next = NULL;
+    free(temp);
     printf("Node Deleted!\n");
     return head;
 }
@@ -215,7 +208,7 @@ void printList(Node *head)
     if (!temp)
     {
         printf("\nLinked List Empty!\n\n");
-        exit(-1);
+        return;
     }
     printf("Your Linked List: \n");
 
@@ -248,7 +241,7 @@ int main(void)
 {
     Node *head = NULL, *temp = NULL;
     int size, choice, data, position, element, foundPos;
-    printf("Enter Size of Singly Linked List: ");
+    printf("Enter Size of Doubly Linked List: ");
     scanf("%d", &size);
     while (size--)
     {
@@ -256,6 +249,7 @@ int main(void)
         {
             head = createNode();
             head->next = NULL;
+            head->prev = NULL;
         }
         else
         {
@@ -265,6 +259,8 @@ int main(void)
                 temp = temp->next;
             }
             temp->next = createNode();
+            temp->next->prev = temp;
+            temp->next->next = NULL;
         }
     }
     printf("\n");
@@ -330,5 +326,11 @@ int main(void)
             exit(0);
         }
     }
+    head = insertAtEnd(head, 6);
+    printList(head);
+    head = insertAtStart(head, 0);
+    printList(head);
+    head = insertAtNth(head, 2, 69);
+    printList(head);
     return 0;
 }
