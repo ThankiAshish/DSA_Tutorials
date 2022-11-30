@@ -326,11 +326,5 @@ int main(void)
             exit(0);
         }
     }
-    head = insertAtEnd(head, 6);
-    printList(head);
-    head = insertAtStart(head, 0);
-    printList(head);
-    head = insertAtNth(head, 2, 69);
-    printList(head);
     return 0;
 }
